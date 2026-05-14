@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.green.paging.mapper.BoardPagingMapper">
+	<!-- 전체 게시글 조회 -->
+	<select id="count" resultType="java.lang.Integer">
+		SELECT
+		    COUNT(IDX) AS CNT
+		FROM BOARD 
+		<where>
+		  <if test="bto.menu_id != null and bto.menu_id != ''">
+		    AND MENU_ID = #{ bto.menu_id } 
+		  </if>
+		  <if test="searchType != null and searchType != '' 
+	        and keyword != null and keyword != ''">
+	        AND ${searchType} LIKE '%' || #{keyword} || '%'
+	      </if>
+		</where>
+	</select>
+	<!-- BoardPagingList -->
+	<select id="getBoardPagingList">
+		SELECT 
+		    IDX,
+		    TITLE,
+		    WRITER,
+		    TO_CHAR(REGDATE, 'YYYY-MM-DD') REGDATE,
+		    HIT
+		 FROM 
+		    BOARD
+		 <where>
+			<if test="menu_id != null and menu_id != ''">
+			  AND MENU_ID = #{menu_id}
+			</if>
+			<if test="searchType != null and searchType != ''
+			and keyword != null and keyword != ''">
+			  AND ${searchType} LIKE '%' || #{keyword} || '%'
+			</if>
+		 </where>
+		 ORDER BY IDX DESC
+		 OFFSET #{offset} ROWS FETCH NEXT #{numOfRows} ROWS ONLY 
+	</select>
+	<select id="getBoard">
+  		SELECT
+		    IDX,
+		    MENU_ID,
+		    TITLE,
+		    CONTENT,
+		    WRITER,
+		    TO_CHAR(REGDATE, 'YYYY-MM-DD') REGDATE,
+		    HIT
+		FROM
+		    BOARD
+		WHERE 
+			IDX = #{idx}
+	</select>
+	<select id="deleteBoard">
+		DELETE FROM BOARD
+		WHERE IDX = #{idx}
+	</select>
+	<update id="updateBoard">
+		UPDATE BOARD
+		SET TITLE = #{title}, CONTENT = #{content}
+		WHERE IDX = #{idx}
+	</update>
+	<insert id="insertBoard">
+		INSERT INTO BOARD (
+		    IDX,
+		    MENU_ID,
+		    TITLE,
+		    WRITER,
+		    CONTENT
+		) VALUES ( 
+		    (SELECT NVL(MAX(IDX), 0) + 1 FROM BOARD),
+		    #{menu_id},
+		    #{title},
+		    #{writer},
+		    #{content}
+		)
+	</insert>
+	<update id="incHit">
+		UPDATE BOARD
+		SET HIT = HIT + 1
+	 	WHERE IDX = #{idx}
+	</update>
+</mapper>
