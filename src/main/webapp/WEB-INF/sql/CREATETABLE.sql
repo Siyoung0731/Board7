@@ -101,8 +101,26 @@ ORDER BY IDX DESC;
 INSERT INTO TUSER VALUES('admin', '1234', '관리자', 'admin@green.com', 1000, sysdate)
 
 INSERT INTO TUSER VALUES('sky1', '1234', '고객1', 'sky1@green.com', 1000, sysdate)
-
-
+------------------------------------------------------------------------------------------------------------
+-- 멀티게시판 자료실 
+CREATE TABLE FILES 
+(
+    FILE_NUM NUMBER(6, 0) NOT NULL,    -- 파일고유번호(식별)
+    IDX NUMBER(6, 0) NOT NULL,         -- 게시글 번호 : BOARD_IDX 참조
+    FILENAME VARCHAR2(255) NOT NULL,    -- 파일명
+    FILETEXT VARCHAR2(255) NOT NULL,    -- 파일확장자
+    SFILENAME VARCHAR2(255) NOT NULL,    -- 저장된 실제 파일명
+    
+    CONSTRAINT FILES_PK PRIMARY KEY     -- 기본키(복합)
+    (
+        FILE_NUM,
+        IDX
+    ),
+    CONSTRAINT FK_BOARD_FILES_IDX
+    FOREIGN KEY (IDX)
+    REFERENCES BOARD(IDX)
+    ON DELETE CASCADE                  -- 게시글 삭제 -> 첨부파일 같이 삭제  
+);
 
 
 

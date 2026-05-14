@@ -11,7 +11,7 @@ $ { 조건 ? 'A' : 'B' } == ${menu.menu_id eq menu_id ? 'active' : ''}
     <tr>
       <c:forEach var="menu" items="${ mList }">
         <td>
-          <a href="/Pds/List?menu_id=${ menu.menu_id }&nowpage=1" 
+          <a href="/Pds/List?menu_id=${menu.menu_id }&nowpage=1" 
           class="${menu.menu_id eq map.menu_id ? 'active' : ''}">
             ${ menu.menu_name }
           </a>
