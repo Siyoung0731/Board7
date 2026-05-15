@@ -41,7 +41,7 @@ table { width:100%;  }
   #table1 {  margin-bottom : 150px; }
   
   #btnAddFile {
-  	width: 150px;
+  	width: 300px;
   }
   
 </style>
@@ -76,7 +76,7 @@ table { width:100%;  }
 		      <td>파일</td>
 		      <td>
 		      	<div id=tdfile>
-			      <input type="button" id="btnAddFile" value="파일추가(최대 100MB)" />
+			      <input type="button" id="btnAddFile" value="파일추가(최대 100MB)" /><br>	
 		      	  <input type="file" name="upfile" class="upfile" multiple /><br>		      	
 		      	</div>
 		      </td>

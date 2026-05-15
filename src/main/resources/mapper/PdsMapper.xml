@@ -46,4 +46,7 @@
 		 ORDER BY IDX DESC
 		 OFFSET #{offset} ROWS FETCH NEXT #{numOfRows} ROWS ONLY 
 	</select>
+	<insert id="">
+	
+	</insert>
 </mapper>

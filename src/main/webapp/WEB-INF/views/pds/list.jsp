@@ -75,7 +75,7 @@
 	  	</tr>
 		  <tr>
  		    <td colspan="6">
- 			    [<a href="/Pds/WriteForm?menu_id=${ pds.menu_id }&nowpage=${pds.nowpage}">
+ 			    [<a href="/Pds/WriteForm?menu_id=${ map.menu_id }&nowpage=${map.nowpage}">
  			    새 글 등록
  			    </a>]
  			    &nbsp;&nbsp;&nbsp;
