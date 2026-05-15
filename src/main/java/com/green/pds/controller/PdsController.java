@@ -37,18 +37,23 @@ public class PdsController {
 		
 		// 메뉴 목록 조회
 		List<MenuDTO> mList = menuMapper.getMenuList();
-		// 자료실 목록 조회 (10개씩) 
+		
+		// 자료실 목록 조회 (10개씩) - 페이징 처리 준비작업 시작
 		// 해당 메뉴의 자료수
 		int totCount = pdsMapper.count(map); // menu_id, searchType, keyword 전달 예정
 		System.out.println(totCount);
-		
-		int nowpage = Integer.parseInt(String.valueOf(map.get("nowpage")));
+		// String.valueOf(~) 이 방법을 많이 사용
+		int nowpage = Integer.parseInt(String.valueOf(map.get("nowpage"))); 
 		
 		// 페이징을 위한 설정 
 		SearchDto sto = new SearchDto();
 		sto.setPageNo(nowpage);
 		sto.setNumOfRows(10); // 한 페이지에 10줄의 자료
-		sto.setPageNo(10); // 페이지 번호 목록
+		sto.setPageSize(10); // 페이지 번호 목록
+		
+		// Pagination 설정
+		Pagination pagination = new Pagination(totCount, sto);
+		sto.setPagination(pagination);
 		
 		int offset = sto.getOffset();
 		int numOfRows = sto.getNumOfRows();
@@ -60,11 +65,7 @@ public class PdsController {
 		
 		// 자료 조회 - Service 할 일
 		List<PdsDto> pdsList = pdsService.getPdsList(map);
-		
-		// Pagination 설정
-		Pagination pagination = new Pagination(totCount, sto);
-		sto.setPagination(pagination);
-		
+			
 		//--------------------------------------------------------------------
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("pds/list");
@@ -76,6 +77,7 @@ public class PdsController {
 		mv.addObject("map", map);
 		return mv;
 	}
+	// 글 쓰기
 	// /Pds/WriteForm?menu_id=&nowpage=
 	@RequestMapping("WriteForm")
 	public ModelAndView writeForm(			
@@ -89,7 +91,7 @@ public class PdsController {
 		mv.addObject("map", map);
 		return mv;
 	}
-	
+	// 내용 보기
 	// Pds/View?idx=114&menu_id=MENU01&nowpage=1
 	@RequestMapping("View")
 	public ModelAndView view(

@@ -40,6 +40,10 @@ table { width:100%;  }
   
   #table1 {  margin-bottom : 150px; }
   
+  #btnAddFile {
+  	width: 150px;
+  }
+  
 </style>
 </head>
 <body>
@@ -48,9 +52,10 @@ table { width:100%;  }
 		<h2 class="h2"><b id="mname"></b>자료실 새 글 쓰기</h2>
 		<form action="/Pds/Write" method="post"
 			enctype="multipart/form-data" >
-		 <input type="hidden" name="menu_id" value="${ map.menu_id }">
+			
+		 <input type="hidden" name="menu_id" value="${ map.menu_id }" />
 		 <!-- 입력을 받지 않고 nowpage 값을 넘겨주기 위함. -->
-		 <input type="hidden" name="nowpage" value="${ map.nowpage }"> 
+		 <input type="hidden" name="nowpage" value="${ map.nowpage }" /> 
 		  <table id="table1">
 		    <tr>
 		      <td><span class="red">*</span>제목</td>
@@ -60,7 +65,8 @@ table { width:100%;  }
 		    </tr>
    		    <tr>
 		      <td><span class="red">*</span>작성자</td>
-		      <td><input type="text" name="writer" value="${sessionScope.login.userid}"/></td>
+		      <td><input type="text" name="writer" 
+		             value="${sessionScope.login.userid}"/></td>
 		    </tr>
 		    <tr>
 		      <td>내용</td>
@@ -69,9 +75,9 @@ table { width:100%;  }
 		    <tr>
 		      <td>파일</td>
 		      <td>
-		      	<input type="button" id="btnAddFile" value="파일추가(최대 100MB)" />
 		      	<div id=tdfile>
-		      	  <input type="file" name="upfile" class="upfile" multiple/><br>		      	
+			      <input type="button" id="btnAddFile" value="파일추가(최대 100MB)" />
+		      	  <input type="file" name="upfile" class="upfile" multiple /><br>		      	
 		      	</div>
 		      </td>
 		    </tr>
@@ -83,28 +89,36 @@ table { width:100%;  }
 		    </tr>
 		  </table>
 		</form>
+		
 	</main>
 	<!-- JavaScript 코딩 : client validation -->
 	<script>
 		// 메뉴제목 출력
 		const mnameEl = document.querySelector('#mname');
 		let menunameEl = document.querySelector('.menu .active');
-		mnameEl.innerHTML = menunameEl.innerHTML;
+		//mnameEl.innerHTML = menunameEl.innerHTML;
 		
 		// 목록으로 이동
 		const goListEl = document.querySelector('#goList');
 		goListEl.onclick = function() {
 			location.href='/Pds/List?menu_id=${map.menu_id}&nowpage=${map.nowpage}';
 		};
+		
 		// 파일 입력창 추가
 		const btnAddFileEl = document.querySelector('#btnAddFile');
 		const tdfileEl = document.querySelector('#tdfile');
+		
 		let tag = '<input type="file" name="upfile" class="upfile" multiple/><br>';
 		let html = tdfileEl.innerHTML;
-		btnAddFileEl.addEventListener('click', function() {
-			html +=  tag
-			alert(html)
-			tdfileEl.innerHTML = html
+		
+		// js 에서 실행할 때 새로 추가된 버튼은 이벤트가 한번만 작동
+		// 해결 : 이벤트를 부모 Element 에 설정
+		tdfileEl.addEventListener('click', function(e) {
+			console.dir(e.target) //#btnAddFile 과 .upfile 구분
+			if(e.target.id == 'btnAddFile') {
+				html +=  tag
+				tdfileEl.innerHTML = html				
+			}
 		}) 
 		// 입력항목 체크
 	</script>

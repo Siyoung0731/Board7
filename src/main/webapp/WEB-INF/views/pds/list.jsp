@@ -64,19 +64,6 @@
 	<main>
 	  <%@include file="/WEB-INF/include/menuspdspaging.jsp" %>
   	  <h2 class="h2"><b id="mname"></b>자료실</h2>
-	  <form action="/Pds/List" method="get">
-	  <input type="hidden" name="menu_id" value="${map.menu_id}">
-	  <input type="hidden" name="nowpage" value="${map.nowpage}">
-	  <div id="search">
-	    <select name="searchType">
-	      <option value="title">제목</option>
-	      <option value="content">내용</option>
-	      <option value="writer">작성자</option>
-	    </select>
-	    <input type="text" name="keyword" />
-	    <input type="submit" name="검색" />
-	  </div>
-	  </form>
 	  <table id="list">
 	  	<tr>
 		  <td>번호</td>
@@ -110,13 +97,43 @@
 	  		  <td>${ pds.hit }</td>
 		  	</tr>
 	  	</c:forEach>
-	  </table> 
-      <%@include file="/WEB-INF/include/pagingpds.jsp" %>    
+	  </table>
+	  
+	  
+  	  <form action="/Pds/List" method="get">
+	  <input type="hidden" name="menu_id" value="${map.menu_id}">
+	  <input type="hidden" name="nowpage" value="${map.nowpage}">
+	  <div id="search">
+	    <select name="searchType">
+	      <option value="title">제목</option> <!-- searchType=title -->
+	      <option value="content">내용</option>
+	      <option value="writer">작성자</option>
+	    </select>
+	    <input type="text" name="keyword" value="${map.keyword}"/>
+	    <input type="submit" name="검색" />
+	  </div>
+	  </form> 
+	  
+      <%@include file="/WEB-INF/include/pagingpds.jsp" %>   
+       
 	</main>
 	<script>
+		// Pagingpds.jsp 에서 현재 페이지 색 변경 작업
 		const mnameEl = document.querySelector('#mname');
 		let menunameEl = document.querySelector('.menu .active');
-		mnameEl.innerHTML = menunameEl.innerHTML;
+		mnameEl.innerHTML = menunameEl.innerHTML
+		
+		// 검색한 후 searchType 을 선택한 내용 변경
+		let crrSearchType = '${ map.searchType }'  // 서버변수
+		const optionEls = document.querySelector("option");
+		let index = 0;
+		switch(crrSearchType) {
+		case "":
+		case "title": index = 0; break;
+		case "content": index = 1; break;
+		case "writer": index = 2; break;
+		}
+		optionEls[index].selected = true;
 	</script>
 </body>
 </html>

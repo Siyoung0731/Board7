@@ -6,9 +6,10 @@
 	<select id="count" resultType="java.lang.Integer">
 		SELECT
 		    COUNT(IDX) AS CNT
-		FROM BOARD 
+		FROM 
+			BOARD 
 		<where>
-		  <if test="bto.menu_id != null and bto.menu_id != ''">
+		  <if test="menu_id != null and menu_id != ''">
 		    AND MENU_ID = #{ menu_id } 
 		  </if>
 		  <if test="searchType != null and searchType != '' 
@@ -16,11 +17,13 @@
 	        AND ${searchType} LIKE '%' || #{keyword} || '%'
 	      </if>
 		</where>
+		
 	</select>
 	<!-- getPdsList -->
 	<select id="getPdsList">
 		SELECT 
 		    IDX,
+		    MENU_ID,
 		    TITLE,
 		    WRITER,
 		    (

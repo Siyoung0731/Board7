@@ -8,7 +8,7 @@ $ { 조건 ? 'A' : 'B' } == ${menu.menu_id eq menu_id ? 'active' : ''}
  , 다르면 아무런 클래스도 넣지 않음(빈 문자열) 
 -->
   <table class="menu">
-    <tr>
+    <tr>   
       <c:forEach var="menu" items="${ mList }">
         <td>
           <a href="/Pds/List?menu_id=${menu.menu_id }&nowpage=1" 
@@ -16,7 +16,7 @@ $ { 조건 ? 'A' : 'B' } == ${menu.menu_id eq menu_id ? 'active' : ''}
             ${ menu.menu_name }
           </a>
         </td>
-      </c:forEach>
+      </c:forEach>     
   	</tr>
   </table>
   
