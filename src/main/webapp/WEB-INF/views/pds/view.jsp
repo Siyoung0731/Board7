@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="jakarta.tags.core" %> 
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,7 +8,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>write</title>
 <link href="/img/favicon.ico" rel="shortcut icon" type="image/x-icon">
-
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 <link href="/css/common.css" rel="stylesheet" /> 
 <style>
@@ -84,11 +84,11 @@
 <body>
 	<main>
 		<!-- 메뉴 출력 -->
-		<%@include file="/WEB-INF/include/menuspaging.jsp" %>
+		<%@include file="/WEB-INF/include/menuspdspaging.jsp" %>	
 		<h2 class="h2"><b id="mname">${menu_name}</b>자료실 보기</h2>
 		  <table id="table1">
 		    <tr>
-		      <td>게시글 번호</td>
+		      <td>자료실 번호</td>
 		      <td>${pds.idx}</td>
 		      <td>조회수</td>
 		      <td>${pds.hit}</td>
@@ -108,12 +108,26 @@
 		      <td colspan="3">${pds.content}</td>
 		    </tr>
 		    <tr>
+		      <td>파일</td>
+		      <td colspan="3" id="tdfile">
+		      
+		      	<c:forEach var="file" items="${ fileList }">
+		      	  <div>
+		      	    <a href="/Pds/filedownload/${ file.file_num }">
+		      	      ${ file.filename }
+		      	    </a>
+		      	  </div>
+		      	</c:forEach>
+		      	
+		      </td>
+		    </tr>
+		    <tr>
 		      <td colspan="4">
-		        <a class="btn btn-light" href="/Pds/WriteForm?menu_id=${menu_id}&nowpage=${nowpage}">새글쓰기</a>
+		        <a class="btn btn-light" href="/Pds/WriteForm?menu_id=${map.menu_id}&nowpage=${map.nowpage}">새글쓰기</a>
 		        <%-- <c:if test="${sessionScope.login.userid eq board.writer }"> --%>
 		        
-		        <a class="btn btn-light" href="/Pds/UpdateForm?idx=${pds.idx}&menu_id=${pds.menu_id}&nowpage=${nowpage}">수정</a>
-		        <a class="btn btn-light" href="/Pds/Delete?idx=${pds.idx}&menu_id=${pds.menu_id}&nowpage=${nowpage}">삭제</a>		        
+		        <a class="btn btn-light" href="/Pds/UpdateForm?idx=${pds.idx}&menu_id=${map.menu_id}&nowpage=${map.nowpage}">수정</a>
+		        <a class="btn btn-light" href="/Pds/Delete?idx=${pds.idx}&menu_id=${map.menu_id}&nowpage=${map.nowpage}">삭제</a>		        
 		        <%-- </c:if> --%>
 		              
 		        <a class="btn btn-light" href="/Pds/List?menu_id=${map.menu_id}&nowpage=${map.nowpage}">목록</a>		      

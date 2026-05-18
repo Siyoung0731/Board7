@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.green.pds.dto.FilesDto;
 import com.green.pds.dto.PdsDto;
 
 // 기능 정의
@@ -13,5 +14,13 @@ public interface PdsService {
 	List<PdsDto> getPdsList(HashMap<String, Object> map);
 
 	void setWrite(HashMap<String, Object> map, MultipartFile[] uploadFiles);
+
+	void setReadCountUpdate(HashMap<String, Object> map);
+
+	PdsDto getPds(HashMap<String, Object> map);
+
+	List<FilesDto> getFileList(HashMap<String, Object> map);
+
+	FilesDto getFileInfo(Long file_num);
 }
 

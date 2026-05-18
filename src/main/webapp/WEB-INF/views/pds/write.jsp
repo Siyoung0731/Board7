@@ -48,7 +48,7 @@ table { width:100%;  }
 </head>
 <body>
 	<main>
-		<%@include file="/WEB-INF/include/menuspaging.jsp" %>
+		<%@include file="/WEB-INF/include/menuspdspaging.jsp" %>
 		<h2 class="h2"><b id="mname"></b>자료실 새 글 쓰기</h2>
 		<form action="/Pds/Write" method="post"
 			enctype="multipart/form-data" >
@@ -66,7 +66,7 @@ table { width:100%;  }
    		    <tr>
 		      <td><span class="red">*</span>작성자</td>
 		      <td><input type="text" name="writer" 
-		             value="${sessionScope.login.userid}"/></td>
+		             value="${sessionScope.login.userid}"/></td>	
 		    </tr>
 		    <tr>
 		      <td>내용</td>
@@ -96,7 +96,7 @@ table { width:100%;  }
 		// 메뉴제목 출력
 		const mnameEl = document.querySelector('#mname');
 		let menunameEl = document.querySelector('.menu .active');
-		//mnameEl.innerHTML = menunameEl.innerHTML;
+		mnameEl.innerHTML = menunameEl.innerHTML;
 		
 		// 목록으로 이동
 		const goListEl = document.querySelector('#goList');

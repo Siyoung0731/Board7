@@ -38,17 +38,53 @@ public class PdsServiceImpl implements PdsService {
 		
 		// 별도 클래스 생성해서 처리 : PdsFile
 		PdsFile.save(map, uploadFiles);
+				
 		System.out.println("PdsFile 이후 map: " + map); // fileList, fto
 		
 		// 2. DB 저장 : 자료실 글 쓰기 <- map 
 		//   Board table 에 저장
 		pdsMapper.setWrite(map); // insertBoard
+		
+		
 		// 3. Files 에 저장
 		List<FilesDto> fileList = (List<FilesDto>) map.get("fileList");
 		if(fileList.size() > 0)
 			pdsMapper.setFileWriter(map);
 		
 		return;
+	}
+	
+	// map(IDX) 에 해당하는 조회수 증가
+	@Override
+	public void setReadCountUpdate(HashMap<String, Object> map) {
+		pdsMapper.setReadCountUpdate(map);
+	}
+	
+	// 자료실 게시글(Pds) 을 조회한다 : map(idx)
+	@Override
+	public PdsDto getPds(HashMap<String, Object> map) {
+		
+		PdsDto pto = (PdsDto) pdsMapper.getPds(map);
+		
+		return pto;
+	}
+	
+	// IDX 에 해당하는 FILES TABLE 의 정보
+	@Override
+	public List<FilesDto> getFileList(HashMap<String, Object> map) {
+		
+		List<FilesDto> fileList = pdsMapper.getFileList(map);
+		
+		return fileList;
+	}
+
+	// file_num 로 조회할 파일 정보를 조회
+	@Override
+	public FilesDto getFileInfo(Long file_num) {
+		
+		FilesDto fileInfo = pdsMapper.getFileInfo(file_num);
+		
+		return fileInfo;
 	}
 
 }
