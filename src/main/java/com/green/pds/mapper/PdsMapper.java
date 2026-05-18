@@ -12,6 +12,10 @@ public interface PdsMapper {
 	
 	int count(HashMap<String, Object> map);
 
-	List<PdsDto> getPdsList(HashMap<String, Object> map);	
+	List<PdsDto> getPdsList(HashMap<String, Object> map);
+
+	void setWrite(HashMap<String, Object> map);
+
+	void setFileWriter(HashMap<String, Object> map);	
 	
 }

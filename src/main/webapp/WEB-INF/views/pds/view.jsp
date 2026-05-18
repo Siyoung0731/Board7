@@ -116,7 +116,7 @@
 		        <a class="btn btn-light" href="/Pds/Delete?idx=${pds.idx}&menu_id=${pds.menu_id}&nowpage=${nowpage}">삭제</a>		        
 		        <%-- </c:if> --%>
 		              
-		        <a class="btn btn-light" href="/Pds/List?menu_id=${menu_id}&nowpage=${nowpage}">목록</a>		      
+		        <a class="btn btn-light" href="/Pds/List?menu_id=${map.menu_id}&nowpage=${map.nowpage}">목록</a>		      
 		        <a class="btn btn-light" href="/">Home</a>		      
 		      </td>
 		    </tr>

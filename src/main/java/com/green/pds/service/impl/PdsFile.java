@@ -46,14 +46,18 @@ public class PdsFile {
 			//System.out.println("PdsFile: " + orgName + fileExt);
 			// 날짜 폴더 생성
 			String folderPath = makeFolder(uploadPath);
+			
 			// 파일 중복방지 : 같은 폴더에 같은 파일명을 저장하면 마지막 저장된 파일로 변경
 			// 중복되지 않는 고유한 문자열 생성 - UUID
 			String uuid = UUID.randomUUID().toString();
 			// 저장할 sfilename 생성
+			// File.separator : window : "\\" , Linux : "/"
+			// saveName : 실제 저장될 서버의 경로 + 생성된 날짜형 폴더명 + UUID + 파일명
 			String saveName = uploadPath + File.separator 
 					        + folderPath + File.separator  // 실제 저장될 파일명
 					        + uuid + "." + fileName;
 			
+			//saveName2 : 생성된 날짜형 폴더명 + UUID + 파일명
 			String saveName2 = folderPath + File.separator
 			                 + uuid + "." + fileName; // 실제 sfileName 에 저장될 파일명
 			
@@ -87,6 +91,7 @@ public class PdsFile {
 		//File.separator : win("\\"), Linux, MAC("/")
 		String folderPath = dateStr.replace("/", File.separator); // java.io.File
 		
+		// 날짜로 폴더 생성 -> d:\\dev\\springboot\\data\\2026\\05\\15
 		File uploadPathFolder = new File(uploadPath, folderPath);
 		// mkdir() : 상위폴더가 없으면 폴더 생성 실패
 		// mkdirs() : 상위폴더가 없으면 전체 생성
@@ -94,7 +99,6 @@ public class PdsFile {
 			uploadPathFolder.mkdirs(); 
 		
 		
-		// 날짜로 폴더 생성 -> d:\\dev\\springboot\\data\\2026\\05\\15
 		
 		return folderPath;
 	}
