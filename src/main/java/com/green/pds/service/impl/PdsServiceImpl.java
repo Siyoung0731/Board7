@@ -101,7 +101,7 @@ public class PdsServiceImpl implements PdsService {
 		// 외래키가 설정된 관계에서 삭제는 자식레코드를 먼저 삭제해야한다
 		pdsMapper.deleteUploadFile(map);
 		
-		//3. IDX 에 해당하는 자료 글 삭제 : Board 
+		//3. IDX 에 해당하는 자료 글 삭제 : Board Table 에 실제 삭제된 정보 삭제
 		pdsMapper.setDelete(map);
 	}
 

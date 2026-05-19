@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import com.green.config.MvcConfig;
+import com.green.interceptor.AuthInterceptor;
 import com.green.menus.dto.MenuDTO;
 import com.green.menus.mapper.MenuMapper;
 import com.green.paging.dto.Pagination;
@@ -39,6 +40,8 @@ import jakarta.servlet.http.HttpServletResponse;
 @RequestMapping("/Pds")
 public class PdsController {
 
+    private final AuthInterceptor authInterceptor;
+
     private final MvcConfig mvcConfig;
 	
 	@Value("${part1.upload-path}")
@@ -51,8 +54,9 @@ public class PdsController {
 	@Autowired
 	private PdsService pdsService;
 
-    PdsController(MvcConfig mvcConfig) {
+    PdsController(MvcConfig mvcConfig, AuthInterceptor authInterceptor) {
         this.mvcConfig = mvcConfig;
+        this.authInterceptor = authInterceptor;
     }
 
 	// /Pds/List?menu_id=MENU01&nowpage=1
@@ -178,13 +182,47 @@ public class PdsController {
 		
 		System.out.println("Delete map: " + map);
 		
-		// DB 에서 자료 삭제
+		// DB 에서 자료 삭제 - Service - Serviceimpl - PdsFile
 		pdsService.setDelete(map);
 		
 		// 삭제 이후 목록 조회 돌아갈 주소 이동
 		ModelAndView mv = new ModelAndView();
 		String loc = "redirect:/Pds/List"
 				+ "?menu_id=" + map.get("menu_id")
+				+ "&nowpage=" + map.get("nowpage");
+		mv.setViewName(loc);
+		return mv;
+	}
+	//Pds/UpdateForm?idx=209&menu_id=MENU01&nowpage=1
+	@RequestMapping("/UpdateForm")
+	public ModelAndView updateForm(
+			@RequestParam HashMap<String, Object> map) {
+		
+		// 메뉴 목록
+		List<MenuDTO> mList = menuMapper.getMenuList();
+		
+		// 수정할 Board 정보 IDX 로 검색
+		PdsDto pds = pdsService.getPds(map);
+		
+		// 수정할 Files 정보 IDX 로 검색
+		List<FilesDto> fileList = pdsMapper.getFileList(map); 
+		
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("pds/update");
+		mv.addObject("mList", mList);
+		mv.addObject("pds", pds);
+		mv.addObject("fileList", fileList);
+		
+		mv.addObject("map", map);
+		return mv;
+	}
+	
+	@RequestMapping("/Update")
+	public ModelAndView update(
+			@RequestParam HashMap<String, Object> map) {
+		ModelAndView mv = new ModelAndView();
+		String loc = "redirect:/Pds/List"
+				+ "?menu_id=" + map.get("menu_id") 
 				+ "&nowpage=" + map.get("nowpage");
 		mv.setViewName(loc);
 		return mv;
