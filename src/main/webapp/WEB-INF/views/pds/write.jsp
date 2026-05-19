@@ -51,8 +51,7 @@ table { width:100%;  }
 		<%@include file="/WEB-INF/include/menuspdspaging.jsp" %>
 		<h2 class="h2"><b id="mname"></b>자료실 새 글 쓰기</h2>
 		<form action="/Pds/Write" method="post"
-			enctype="multipart/form-data" >
-			
+			enctype="multipart/form-data" >	
 		 <input type="hidden" name="menu_id" value="${ map.menu_id }" />
 		 <!-- 입력을 받지 않고 nowpage 값을 넘겨주기 위함. -->
 		 <input type="hidden" name="nowpage" value="${ map.nowpage }" /> 

@@ -2,6 +2,7 @@ package com.green.pds.mapper;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -27,5 +28,7 @@ public interface PdsMapper {
 
 	FilesDto getFileInfo(Long file_num);
 
-	
+	void deleteUploadFile(HashMap<String, Object> map);
+
+	void setDelete(HashMap<String, Object> map);
 }

@@ -10,18 +10,20 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-
+import com.green.config.MvcConfig;
 import com.green.menus.dto.MenuDTO;
 import com.green.menus.mapper.MenuMapper;
 import com.green.paging.dto.Pagination;
@@ -36,6 +38,8 @@ import jakarta.servlet.http.HttpServletResponse;
 @Controller
 @RequestMapping("/Pds")
 public class PdsController {
+
+    private final MvcConfig mvcConfig;
 	
 	@Value("${part1.upload-path}")
 	private String uploadPath;
@@ -46,6 +50,10 @@ public class PdsController {
 	private PdsMapper pdsMapper;
 	@Autowired
 	private PdsService pdsService;
+
+    PdsController(MvcConfig mvcConfig) {
+        this.mvcConfig = mvcConfig;
+    }
 
 	// /Pds/List?menu_id=MENU01&nowpage=1
 	@RequestMapping("/List")
@@ -162,13 +170,33 @@ public class PdsController {
 		return mv;
 	}
 	
+	// /Pds/Delete?idx=823&menu_id=MENU01&nowpage=1
+	// 삭제 
+	@RequestMapping("/Delete")
+	public ModelAndView delete(
+			@RequestParam HashMap<String, Object> map) {
+		
+		System.out.println("Delete map: " + map);
+		
+		// DB 에서 자료 삭제
+		pdsService.setDelete(map);
+		
+		// 삭제 이후 목록 조회 돌아갈 주소 이동
+		ModelAndView mv = new ModelAndView();
+		String loc = "redirect:/Pds/List"
+				+ "?menu_id=" + map.get("menu_id")
+				+ "&nowpage=" + map.get("nowpage");
+		mv.setViewName(loc);
+		return mv;
+	}
+	
 	// 파일다운로드
 	// 서버에서 바이너리데이터를 다운받는다.
-	@RequestMapping("/filedownload/{file_num}")
+	@GetMapping("/filedownload/{file_num}")
 	@ResponseBody
 	public void downloadFile(
 			HttpServletResponse res,
-			@PathVariable(value="file_num") long file_num
+			@PathVariable(value="file_num") long file_num		// ?file_num=1
 			) throws UnsupportedEncodingException {
 		// HttpServletResponse 객체를 사용하면 return 문 없이도 data를 서버 
 		// -> 클라이언트로 보낼 수 있다.
@@ -194,7 +222,7 @@ public class PdsController {
 		FileInputStream fis = null;
 		try {
 			fis = new FileInputStream(saveFilePath.toFile());
-			FileCopyUtils.copy(fis, res.getOutputStream());
+			FileCopyUtils.copy(fis, res.getOutputStream()); //처리 속도 빠름
 			res.getOutputStream().flush(); // 남아있는 버퍼 초기화
 			
 		} catch (FileNotFoundException e) {
@@ -209,7 +237,7 @@ public class PdsController {
 			}
 		}
 	}
-	//다운로드 받을 파일의 header 정보 설정
+	//다운로드 받을 파일의 header 정보 기본 설정 
 	private void setFileHeader(HttpServletResponse res, FilesDto fileInfo) 
 			throws UnsupportedEncodingException {
 		res.setHeader("Content-Disposition",
@@ -222,6 +250,7 @@ public class PdsController {
 		res.setHeader("Pragma", "no-cache");
 		res.setHeader("Expires", "-1");
 	}
+	
 }
 
 

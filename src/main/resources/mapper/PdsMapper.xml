@@ -19,7 +19,7 @@
 		</where>
 		
 	</select>
-	<!-- getPdsList -->
+	<!-- getPdsList : 자료 조회-->
 	<select id="getPdsList">
 		SELECT 
 		    IDX,
@@ -46,7 +46,7 @@
 		 ORDER BY IDX DESC
 		 OFFSET #{offset} ROWS FETCH NEXT #{numOfRows} ROWS ONLY 
 	</select>
-	<!-- getPds -->
+	<!-- getPds : IDX 로 조회-->
 	<select id="getPds">
 		SELECT 
 			IDX,
@@ -128,4 +128,16 @@
 		SET HIT = HIT + 1
 		WHERE IDX = #{idx}
 	</update>
+	<!-- deleteUploadFile : IDX 에 해당하는 업로드 파일정보들(Files) 삭제 -->
+	<delete id="deleteUploadFile">
+		DELETE 
+		 FROM FILES
+		 WHERE IDX = #{idx}
+	</delete>
+	<!-- setDelete : IDX 에 해당하는 업로드 자료정보(Board)를 삭제 -->
+	<delete id="setDelete">
+		DELETE
+		 FROM BOARD
+		 WHERE IDX = #{idx}
+	</delete>
 </mapper>

@@ -2,6 +2,7 @@ package com.green.pds.service;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,5 +23,7 @@ public interface PdsService {
 	List<FilesDto> getFileList(HashMap<String, Object> map);
 
 	FilesDto getFileInfo(Long file_num);
+
+	void setDelete(HashMap<String, Object> map);
 }
 
