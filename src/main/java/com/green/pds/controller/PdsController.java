@@ -216,20 +216,28 @@ public class PdsController {
 		mv.addObject("map", map);
 		return mv;
 	}
-	
+	// map { idx=, menu_id=, nowpage=, content= }
+	// MultipartFile = upfile=( binary ), upfile=( binary )
 	@RequestMapping("/Update")
 	public ModelAndView update(
-			@RequestParam HashMap<String, Object> map) {
+			@RequestParam HashMap<String, Object> map,
+			@RequestParam("value=upfile") MultipartFile [] uploadfiles ) {
+		
+		// 필요한 정보 수정
+		pdsService.setUpdate(map, uploadfiles);
+		
+		// 돌아갈 주소
 		ModelAndView mv = new ModelAndView();
 		String loc = "redirect:/Pds/List"
 				+ "?menu_id=" + map.get("menu_id") 
 				+ "&nowpage=" + map.get("nowpage");
 		mv.setViewName(loc);
+		mv.addObject(map);
 		return mv;
 	}
 	
 	// 파일다운로드
-	// 서버에서 바이너리데이터를 다운받는다.
+	// 서버에서 바이너리데이터를 다운받는다. : data 덩어리
 	@GetMapping("/filedownload/{file_num}")
 	@ResponseBody
 	public void downloadFile(

@@ -104,6 +104,26 @@ public class PdsServiceImpl implements PdsService {
 		//3. IDX 에 해당하는 자료 글 삭제 : Board Table 에 실제 삭제된 정보 삭제
 		pdsMapper.setDelete(map);
 	}
+	
+	// 자료실 수정 
+	@Override
+	public void setUpdate(HashMap<String, Object> map, MultipartFile[] uploadfiles) {
+		
+		// 업로드될 경로를 map 에 추가
+		map.put("uploadfiles", uploadfiles);
+		
+		// 업로드된 파일 저장
+		PdsFile.save(map, uploadfiles); // 업로드가 끝나면 map (fileList 추가됨)
+		
+		// Files Table 정보 저장 <- map <- fileList
+		List<FilesDto> fileList = (List<FilesDto>) map.get("fileList");
+		if(fileList.size() > 0) 
+			pdsMapper.setFileWriter(map);
+		
+		// IDX 로 Board Table 필요한 정보 수정
+		pdsMapper.setUpdate(map);
+		
+	}
 
 }
 

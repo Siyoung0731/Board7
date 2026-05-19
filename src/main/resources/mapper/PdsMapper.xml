@@ -140,4 +140,12 @@
 		 FROM BOARD
 		 WHERE IDX = #{idx}
 	</delete>
+	<!-- setUpdate : IDX 로 필요한 정보 수정 -->
+	<update id="setUpdate">
+		UPDATE BOARD
+		SET 
+		  TITLE = #{ title }, 
+		  CONTENT = #{ content }
+		WHERE IDX = #{ idx }	
+	</update>
 </mapper>

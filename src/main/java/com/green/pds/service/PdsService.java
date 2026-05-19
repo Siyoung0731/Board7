@@ -25,5 +25,7 @@ public interface PdsService {
 	FilesDto getFileInfo(Long file_num);
 
 	void setDelete(HashMap<String, Object> map);
+
+	void setUpdate(HashMap<String, Object> map, MultipartFile[] uploadfiles);
 }
 
