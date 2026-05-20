@@ -1,0 +1,9 @@
+Relational Database management System : RDBMS 
+
+sql 문으로 조작
+SQL : Structured Query Language
+
+1. Oracle     --> 은행
+2. MSSQL      --> 나스닥
+3. MySQL/MariaDB   
+4. PostgreSQL --> ChatGPT 

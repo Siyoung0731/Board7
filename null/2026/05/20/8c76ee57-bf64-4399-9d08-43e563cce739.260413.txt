@@ -1,0 +1,22 @@
+db server 
+- data 보관하고 관리
+- 요청하는 곳에 전달
+RDB : oracle, nysql, mssql, postgresql, ... 
+Vector db : ...
+db client
+- 서버에 데이터 요청
+- sqlplus : CLI(Command Line Interface) : 명령창에서 작동하는 프로그램
+- sqldeveloper : GUI(Graphical User Interface)
+- dbeaver, heidisql
+
+GET_EMPSAL (double IN_EMPID)
+{
+
+}
+
+JAVA : call by value, 인자를 새로운 변수를 만들어서 받는다
+
+1정규형 : 도메인은 모두 원자값이어야 한다.
+2정규형 : 부분 함수 종속 제거
+3정규형 : 이행 함수 종속 제거 A -> B, B -> C, A -> C
+BCNF : 결정자 중 후보키가 아닌 것들 제거

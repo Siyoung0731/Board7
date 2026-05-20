@@ -1,0 +1,8 @@
+문자와 문자를 합칠 때 : || ' ' || 
+
+P : primary key
+U : unique key
+F : foreign key
+
+점선은 null이 될 수 있다
+실선은 null이 될 수 없다
