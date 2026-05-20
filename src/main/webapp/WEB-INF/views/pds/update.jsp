@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>write</title>
+<title>update</title>
 <link href="/img/favicon.ico" rel="shortcut icon" type="image/x-icon">
 <link href="/css/common.css" rel="stylesheet" /> 
 <style>
@@ -86,7 +86,7 @@ table { width:100%;  }
 	      	   	  <div class="text-start">
 	      	   	  	<a class="aDelete"
 	      	   	  	   style="text-decoration: none;"
-	      	   	  	   href="/deleteFile?file_num=${ file.file_num }">❌</a>
+	      	   	  	   href="/deleteFile/${ file.file_num }">❌</a>
 	      	   	  	
 	      	   	  	<a href="/Pds/filedownload/${file.file_num}">
 	      	   	  	${file.filename}
@@ -95,8 +95,10 @@ table { width:100%;  }
 	      	   	</c:forEach>
 	      	  	<hr/>
 	      	    <!-- 새 파일 추가 -->  
-		        <input type="button" id="btnAddFile" value="파일추가(최대 100MB)" /><br>	
-	      	    <input type="file" name="upfile" class="upfile" multiple /><br>		      	
+	      	    <div id="addNewFile">
+			      <input type="button" id="btnAddFile" value="파일추가(최대 100MB)" /><br>	
+		      	  <input type="file" name="upfile" class="upfile" multiple /><br>		      		      
+	      	    </div>
 	      	  </td>
 		    </tr>
 		    <tr>
@@ -125,9 +127,10 @@ table { width:100%;  }
 		// 파일 입력창 추가
 		const btnAddFileEl = document.querySelector('#btnAddFile');
 		const tdfileEl = document.querySelector('#tdfile');
+		const addNewFileEl = document.querySelector('#addNewFile');
 		
 		let tag = '<input type="file" name="upfile" class="upfile" multiple/><br>';
-		let html = tdfileEl.innerHTML;
+		let html = addNewFile.innerHTML;
 		
 		// js 에서 실행할 때 새로 추가된 버튼은 이벤트가 한번만 작동
 		// 해결 : 이벤트를 부모 Element 에 설정
@@ -135,10 +138,39 @@ table { width:100%;  }
 			console.dir(e.target) //#btnAddFile 과 .upfile 구분
 			if(e.target.id == 'btnAddFile') {
 				html +=  tag
-				tdfileEl.innerHTML = html				
+				addNewFile.innerHTML = html				
 			}
 		}) 
-		// 입력항목 체크
+		// 입력항목 체크 : title 은 필수 입력
+		
+		// ❌ 을 클릭하면 
+		const aDeleteEls = document.querySelectorAll('.aDelete')
+		aDeleteEls.forEach(function(aDeleteEl, index) {
+			aDeleteEl.addEventListener('click', function(e) {
+				//alert('❌을 클릭');
+				const aEl = e.target
+				console.dir(aEl);
+				let loc = aEl.href 						//"http://localhost:9090/deleteFile/1"
+				
+				// 비동기 호출 서버명령을 실행하고 돌아온다 - fetch(loc)
+				fetch( loc )
+				  .then((response) => response.json())
+				  .then((json) => {
+					  console.log(json)
+					  //alert(json.status)
+					  //aEl.parentElement.remove();
+					  const parentDiv = document.querySelector('div:has(".aDelete")')
+					})
+					.catch((error) => { 
+						console.dir(error)
+						alert(error)	
+					});	
+
+				// 이동 금지
+				e.preventDefault(); 
+				e.stopPropagation(); 
+			})
+		})
 	</script>
 </body>
 </html>

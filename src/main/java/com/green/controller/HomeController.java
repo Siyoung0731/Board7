@@ -21,7 +21,6 @@ public class HomeController {
 		return  "<h2>Test 입니다</h2>";
 	}
 	
-	
 }
 
 

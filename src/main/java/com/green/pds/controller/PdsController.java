@@ -162,6 +162,11 @@ public class PdsController {
 		//넘겨줄 filesDto 정보를 조회 IDX
 		List<FilesDto> fileList = pdsService.getFileList(map);
 		
+		//내용 보기 줄바꿈 변경 \n -> <br>
+		if(pto.getContent() != null ) {
+			String content = pto.getContent().replace("\n", "<br>");
+			pto.setContent(content);
+		}
 		//-------------------------------------------------------------------
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("pds/view");
@@ -221,7 +226,7 @@ public class PdsController {
 	@RequestMapping("/Update")
 	public ModelAndView update(
 			@RequestParam HashMap<String, Object> map,
-			@RequestParam("value=upfile") MultipartFile [] uploadfiles ) {
+			@RequestParam(value="upfile") MultipartFile [] uploadfiles ) {
 		
 		// 필요한 정보 수정
 		pdsService.setUpdate(map, uploadfiles);
@@ -232,9 +237,9 @@ public class PdsController {
 				+ "?menu_id=" + map.get("menu_id") 
 				+ "&nowpage=" + map.get("nowpage");
 		mv.setViewName(loc);
-		mv.addObject(map);
 		return mv;
 	}
+
 	
 	// 파일다운로드
 	// 서버에서 바이너리데이터를 다운받는다. : data 덩어리
@@ -296,7 +301,7 @@ public class PdsController {
 		res.setHeader("Pragma", "no-cache");
 		res.setHeader("Expires", "-1");
 	}
-	
+		
 }
 
 

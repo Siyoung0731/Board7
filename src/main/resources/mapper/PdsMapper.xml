@@ -134,6 +134,12 @@
 		 FROM FILES
 		 WHERE IDX = #{idx}
 	</delete>
+	<!-- deleteUploadFile(FileNUm)  -->
+	<delete id="deleteUploadFileNUM">
+		DELETE
+		 FROM FILES
+		 WHERE FILE_NUM = #{file_num}
+	</delete>
 	<!-- setDelete : IDX 에 해당하는 업로드 자료정보(Board)를 삭제 -->
 	<delete id="setDelete">
 		DELETE
